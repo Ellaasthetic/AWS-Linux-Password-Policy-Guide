@@ -1,1 +1,1 @@
-# AWS-Linux-Password-Policy-Guide
+# Documentation Guide for Configuring Password Policies on a Linux AWS Instance
