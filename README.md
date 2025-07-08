@@ -45,3 +45,57 @@ This helps mitigate brute-force attacks by limiting how often an attacker can at
 ### 3. PuTTY
 - **Description:** A free and open-source terminal emulator for Windows that supports SSH.
 - **Purpose:** Used to securely connect to the EC2 Linux instance from a Windows computer using the `.ppk` key.
+
+
+# 🛡️ Step-by-Step Guide: Implementing Password Policy on a Linux AWS Instance
+This guide provides a detailed walkthrough on how to set up a Linux EC2 instance on AWS and implement password policy configurations for better system security.
+
+## ✅ Step 1: Launch a Linux EC2 Instance
+- Go to [AWS Console](https://aws.amazon.com/console/) and sign in as the **root user** or create an account.
+- In the AWS Management Console:
+   * Search for **"EC2"** and click to open the EC2 dashboard.
+   * Click on **"Launch an Instance"**.
+- Configure the instance:
+   * **Name**: `Linux-Password-Policy` (example used in this demonstration)
+   * **AMI**: Select `Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type`
+   * **Instance Type**: Choose `t3.micro` (default eligible for Free Tier)
+- Under **Key pair (login)**:
+   * Click **"Create a new key pair"**
+   * **Name**: `PolicyKey` (example used in this demonstration)
+   * **Key pair type**: `RSA`
+   * **Private key format**: `.pem`
+   * Click **"Create key pair"** to download the `.pem` file.
+- **Network settings**: Leave as default.
+- **Storage**: Use default — 1 x 8 GiB `gp2`
+- Click **"Launch Instance"**
+
+## 🔗 Step 2: Connect to the Instance
+### Get the Public IP
+* In your EC2 dashboard, go to **Instances**
+* Copy your instance’s **Public IPv4 address**
+
+### Install PuTTY (if not installed)
+* Download [PuTTY Installer](https://www.putty.org/)
+* It includes **PuTTY** and **PuTTYgen**
+
+### Convert `.pem` to `.ppk` using PuTTYgen
+   - Open your file explorer > Downloads
+   - open the `.pem` key file you downloaded using PuTTYgen (PuTTYgen comes with PuTTY when you install it)
+   - click on save private key, and exit.
+
+   * Confirm saving without a passphrase
+This generates a `.ppk` file you’ll use to authenticate with PuTTY
+
+### Connect with PuTTY
+- Open **PuTTY**
+- Under **Session**:
+    * In **Host Name (or IP address)**, paste your **Public IPv4**
+- In the left panel, expand:
+     * `Connection` → `SSH` → `Auth`
+     * Under **"Private key file for authentication"**, click **Browse** and select your `.ppk` file
+- Click **Open** to start the session
+   * click on open and select connect once when prompted with security alert
+- Login as:
+   ```bash
+   ec2-user
+   ```
