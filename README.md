@@ -218,16 +218,12 @@ Example: SecurePass2025!
 Expected result:
 The password should be accepted successfully
 
-Absolutely! Here's your **Step 5** section fully structured for a `README.md` file in clean, readable Markdown. It uses consistent formatting, clear headings, and code blocks — ready to paste directly into your documentation:
-
----
-
-## 🔐 Step 5: Configure Password History and Login Attempt Limits
+# 🔐 Step 5: Configure Password History and Login Attempt Limits
 To enhance your system's security, we’ll add two important protections:
 * 🛑 **Prevent password reuse** — so users can’t recycle old passwords
 * 🚫 **Limit login attempts** — to block brute-force attacks
 
-### Set Password History (Prevent Reuse)
+## Set Password History (Prevent Reuse)
 This ensures users **can't reuse their previous passwords** — improving password hygiene over time.
 #### 🔧 Step-by-step
 1. Open the PAM configuration file:
@@ -242,7 +238,6 @@ password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_au
 ```bash
 password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
 ```
-
 **What this does:**
 * Remembers the **last 5 passwords**
 * Prevents users from reusing any of them
@@ -255,7 +250,7 @@ Enter     → Confirm filename
 Ctrl + X  → Exit nano
 ```
 
-### 🚫Set Account Lockout Threshold (Failed Attempts)
+# 🚫Set Account Lockout Threshold (Failed Attempts)
 This temporarily locks a user out after a number of failed login attempts — helpful against brute-force attacks.
 #### 🔧 Step-by-step
 1. Open the same file again:
@@ -283,8 +278,7 @@ Enter    → Confirm
 Ctrl + X → Exit
 ```
 
-### How to Test It
-
+## How to Test It
 * Try logging in with the **wrong password 3 times** (using the test user).
 * The user account will be **temporarily locked**.
 * Wait 5 minutes (or the time you set with `unlock_time`) — the account will unlock automatically.
