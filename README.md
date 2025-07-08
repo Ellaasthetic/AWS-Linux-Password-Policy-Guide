@@ -116,60 +116,43 @@ Once you're inside the `/etc/security/pwquality.conf` file, you’ll find severa
 
 Below are the settings explained 
 
-### 🔸 `difok = 5`
+### 1. `difok = 5`
 **What it does:**
 Requires at least **5 characters** in your new password to be different from your old password.
 
-**Why it matters:**
 Prevents users from choosing new passwords that are too similar to their old ones (like changing `Password123!` to `Password124!`).
 
-### 🔸 `minlen = 12`
-
+### 2. `minlen = 12`
 **What it does:**
 Sets the **minimum password length** to 12 characters.
-
-**Why it matters:**
 Longer passwords are more secure. Anything shorter than 8 is considered weak today.
 
 > ⚠️ You cannot set this below 6.
 
-### 🔸 `dcredit = -1`
-
+### 3. `dcredit = -1`
 **What it does:**
 Requires **at least 1 digit** (0–9) in the password.
-
-**Why it matters:**
 Digits add complexity and make passwords harder to guess.
 
 > `-1` means it **must** have a digit.
 > Positive numbers (e.g. `1`) make digits **optional**.
 
-### 🔸 `ucredit = -1`
-
+### 4. `ucredit = -1`
 **What it does:**
 Requires **at least 1 uppercase letter** (A–Z).
-
-**Why it matters:**
 Uppercase letters add diversity to your password, increasing security.
 
-### 🔸 `lcredit = -1`
-
+### 5. `lcredit = -1`
 **What it does:**
 Requires **at least 1 lowercase letter** (a–z).
-
-**Why it matters:**
 A password made of all uppercase or just numbers is weaker without lowercase letters.
 
-### 🔸 `ocredit = -1`
-
+### 6. `ocredit = -1`
 **What it does:**
 Requires **at least 1 special character** (like `!`, `@`, `#`, `$`, etc.)
-
-**Why it matters:**
 Symbols make passwords harder to guess or brute-force.
 
-### 🔸 `minclass = 3`
-
+### 7. `minclass = 3`
 **What it does:**
 Requires at least **3 of the following 4 character types**:
 1. Uppercase (A–Z)
@@ -177,23 +160,15 @@ Requires at least **3 of the following 4 character types**:
 3. Digit (0–9)
 4. Special character (!, @, #, etc.)
 
-**Why it matters:**
 Gives users flexibility while still enforcing strong password rules.
 
-### 🔸 `maxrepeat = 0`
-
+### 8. `maxrepeat = 0`
 **What it does:**
 **Prevents repeated characters** in a row (like `aaaa`, `1111`).
 
-**Why it matters:**
 Repeating characters makes passwords predictable and weaker.
 
-**Example:**
-`aaaBBB123!` ❌ (too many repeats)
-`AbcD123!` ✅ (no repeated characters)
-
-> `0` = no character repetition allowed
-> To allow repetition, set to a higher number (e.g. `3` = max 3 repeated characters allowed)
+> `0` = no character repetition allowed. To allow repetition, set to a higher number (e.g. `3` = max 3 repeated characters allowed)
 
 
 
