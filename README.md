@@ -170,6 +170,127 @@ Repeating characters makes passwords predictable and weaker.
 
 > `0` = no character repetition allowed. To allow repetition, set to a higher number (e.g. `3` = max 3 repeated characters allowed)
 
+## Step 4: Save and Exit the File
+Once you’ve made your changes in the nano editor (for example, updating values like minlen, dcredit, etc.), you need to save and exit the file.
+
+Follow these steps:
+```
+Ctrl + O   → Save (Write Out) the file  
+Enter      → Confirm the filename (just press Enter)  
+Ctrl + X   → Exit the nano editor
+```
+📝 Tip:
+Nano shows these shortcuts at the bottom of the editor. The ^ symbol means "Ctrl".
+So ^O = Ctrl + O, and so on.
+
+## Step 5: Testing the Password Policy
+Now that you've configured your password rules, it’s important to verify that everything works correctly. We’ll test it by creating a new user and trying to assign different types of passwords.
+
+### 👤 Create a Test User
+Run the command below to create a new user for testing:
+```
+sudo adduser demouser
+```
+
+### 🔐 Try Setting a Weak Password
+Now try setting a weak password that doesn’t meet your policy:
+```
+sudo passwd demouser
+```
+When prompted, enter a weak password like:
+```
+demo123
+```
+> Note, when typing in password it doesn't show but don't worry the input is happening.
+Expected result:
+You should see a message like:
+```
+BAD PASSWORD: it is too short
+```
+✅ This means your password policy is working — the system is rejecting weak passwords.
+
+### 🔒 Try Setting a Strong Password
+Now enter a password that meets all your policy rules.
+```
+sudo passwd demouser
+```
+Example: SecurePass2025!
+Expected result:
+The password should be accepted successfully
+
+Absolutely! Here's your **Step 5** section fully structured for a `README.md` file in clean, readable Markdown. It uses consistent formatting, clear headings, and code blocks — ready to paste directly into your documentation:
+
+---
+
+## 🔐 Step 5: Configure Password History and Login Attempt Limits
+To enhance your system's security, we’ll add two important protections:
+* 🛑 **Prevent password reuse** — so users can’t recycle old passwords
+* 🚫 **Limit login attempts** — to block brute-force attacks
+
+### Set Password History (Prevent Reuse)
+This ensures users **can't reuse their previous passwords** — improving password hygiene over time.
+#### 🔧 Step-by-step
+1. Open the PAM configuration file:
+```bash
+sudo nano /etc/pam.d/password-auth
+```
+2. Find the following line (or something similar):
+```bash
+password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
+```
+3. Add `remember=5` to the end, like this:
+```bash
+password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
+```
+
+**What this does:**
+* Remembers the **last 5 passwords**
+* Prevents users from reusing any of them
+> You can increase the number (e.g. `remember=10`) if you want to block more password reuse.
+
+4. Save and exit the file:
+```text
+Ctrl + O  → Save  
+Enter     → Confirm filename  
+Ctrl + X  → Exit nano
+```
+
+### 🚫Set Account Lockout Threshold (Failed Attempts)
+This temporarily locks a user out after a number of failed login attempts — helpful against brute-force attacks.
+#### 🔧 Step-by-step
+1. Open the same file again:
+```bash
+sudo nano /etc/pam.d/password-auth
+```
+2. At the **top of the `auth` section**, add the following line:
+```bash
+auth required pam_tally2.so deny=3 unlock_time=300 onerr=fail audit
+```
+**What this does:**
+* `deny=3` → Locks account after **3 failed attempts**
+* `unlock_time=300` → Unlocks after **5 minutes (300 seconds)**
+* `onerr=fail` → Deny access if the module fails
+* `audit` → Logs failed attempts for auditing
+> You can adjust the values:
+>
+> * Increase `deny` to allow more tries (e.g. `deny=5`)
+> * Change `unlock_time` for longer or shorter lockout periods
+
+3. Save and exit the file:
+```text
+Ctrl + O → Save  
+Enter    → Confirm  
+Ctrl + X → Exit
+```
+
+### How to Test It
+
+* Try logging in with the **wrong password 3 times** (using the test user).
+* The user account will be **temporarily locked**.
+* Wait 5 minutes (or the time you set with `unlock_time`) — the account will unlock automatically.
+
+
+
 
 
 
