@@ -46,7 +46,6 @@ This helps mitigate brute-force attacks by limiting how often an attacker can at
 - **Description:** A free and open-source terminal emulator for Windows that supports SSH.
 - **Purpose:** Used to securely connect to the EC2 Linux instance from a Windows computer using the `.ppk` key.
 
-
 # 🛡️ Step-by-Step Guide: Implementing Password Policy on a Linux AWS Instance
 This guide provides a detailed walkthrough on how to set up a Linux EC2 instance on AWS and implement password policy configurations for better system security.
 
@@ -117,20 +116,17 @@ Once you're inside the `/etc/security/pwquality.conf` file, you’ll find severa
 Below are the settings explained 
 
 ### 1. `difok = 5`
-**What it does:**
 Requires at least **5 characters** in your new password to be different from your old password.
 
 Prevents users from choosing new passwords that are too similar to their old ones (like changing `Password123!` to `Password124!`).
 
 ### 2. `minlen = 12`
-**What it does:**
 Sets the **minimum password length** to 12 characters.
 Longer passwords are more secure. Anything shorter than 8 is considered weak today.
 
 > ⚠️ You cannot set this below 6.
 
 ### 3. `dcredit = -1`
-**What it does:**
 Requires **at least 1 digit** (0–9) in the password.
 Digits add complexity and make passwords harder to guess.
 
@@ -138,39 +134,20 @@ Digits add complexity and make passwords harder to guess.
 > Positive numbers (e.g. `1`) make digits **optional**.
 
 ### 4. `ucredit = -1`
-**What it does:**
 Requires **at least 1 uppercase letter** (A–Z).
 Uppercase letters add diversity to your password, increasing security.
 
 ### 5. `lcredit = -1`
-**What it does:**
 Requires **at least 1 lowercase letter** (a–z).
 A password made of all uppercase or just numbers is weaker without lowercase letters.
 
 ### 6. `ocredit = -1`
-**What it does:**
 Requires **at least 1 special character** (like `!`, `@`, `#`, `$`, etc.)
 Symbols make passwords harder to guess or brute-force.
 
-### 7. `minclass = 3`
-**What it does:**
-Requires at least **3 of the following 4 character types**:
-1. Uppercase (A–Z)
-2. Lowercase (a–z)
-3. Digit (0–9)
-4. Special character (!, @, #, etc.)
-
-Gives users flexibility while still enforcing strong password rules.
-
-### 8. `maxrepeat = 0`
-**What it does:**
-**Prevents repeated characters** in a row (like `aaaa`, `1111`).
-
-Repeating characters makes passwords predictable and weaker.
-
 > `0` = no character repetition allowed. To allow repetition, set to a higher number (e.g. `3` = max 3 repeated characters allowed)
 
-## Step 4: Save and Exit the File
+### Save and Exit the File
 Once you’ve made your changes in the nano editor (for example, updating values like minlen, dcredit, etc.), you need to save and exit the file.
 
 Follow these steps:
@@ -183,7 +160,7 @@ Ctrl + X   → Exit the nano editor
 Nano shows these shortcuts at the bottom of the editor. The ^ symbol means "Ctrl".
 So ^O = Ctrl + O, and so on.
 
-## Step 5: Testing the Password Policy
+### Testing the Password Policy
 Now that you've configured your password rules, it’s important to verify that everything works correctly. We’ll test it by creating a new user and trying to assign different types of passwords.
 
 ### 👤 Create a Test User
@@ -207,7 +184,7 @@ You should see a message like:
 ```
 BAD PASSWORD: it is too short
 ```
-✅ This means your password policy is working — the system is rejecting weak passwords.
+✅ This means your password policy is working,the system is rejecting weak passwords.
 
 ### 🔒 Try Setting a Strong Password
 Now enter a password that meets all your policy rules.
@@ -218,7 +195,7 @@ Example: SecurePass2025!
 Expected result:
 The password should be accepted successfully
 
-# 🔐 Step 5: Set Account Lockout Threshold (Failed Login Attempts)
+## 🔐 Step 4: Set Account Lockout Threshold (Failed Login Attempts)
 To enhance your system's security, we'll set up login attempt limits using PAM (Pluggable Authentication Modules). This helps block brute-force attacks by temporarily locking users out after multiple failed login attempts.
 ### Importance of Login Attempt Limits
 - Prevents brute-force attacks by limiting the number of login attempts
