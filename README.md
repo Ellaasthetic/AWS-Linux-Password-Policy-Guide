@@ -218,54 +218,27 @@ Example: SecurePass2025!
 Expected result:
 The password should be accepted successfully
 
-# 🔐 Step 5: Configure Password History and Login Attempt Limits
-To enhance your system's security, we’ll add two important protections:
-* 🛑 **Prevent password reuse** — so users can’t recycle old passwords
-* 🚫 **Limit login attempts** — to block brute-force attacks
+# 🔐 Step 5: Set Account Lockout Threshold (Failed Login Attempts)
+To enhance your system's security, we'll set up login attempt limits using PAM (Pluggable Authentication Modules). This helps block brute-force attacks by temporarily locking users out after multiple failed login attempts.
+### Importance of Login Attempt Limits
+- Prevents brute-force attacks by limiting the number of login attempts
+- Reduces the risk of unauthorized access to your system
+- Protects against dictionary attacks and password guessing
 
-## Set Password History (Prevent Reuse)
-This ensures users **can't reuse their previous passwords** — improving password hygiene over time.
-#### 🔧 Step-by-step
+This configuration is usually done in the PAM (Pluggable Authentication Module) configuration files, located in /etc/pam.d/.
+
+## 🔧 Step-by-step
 1. Open the PAM configuration file:
 ```bash
-sudo nano /etc/pam.d/password-auth
-```
-2. Find the following line (or something similar):
-```bash
-password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
-```
-3. Add `remember=5` to the end, like this:
-```bash
-password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
-```
-**What this does:**
-* Remembers the **last 5 passwords**
-* Prevents users from reusing any of them
-> You can increase the number (e.g. `remember=10`) if you want to block more password reuse.
-
-4. Save and exit the file:
-```text
-Ctrl + O  → Save  
-Enter     → Confirm filename  
-Ctrl + X  → Exit nano
-```
-
-# 🚫Set Account Lockout Threshold (Failed Attempts)
-This temporarily locks a user out after a number of failed login attempts — helpful against brute-force attacks.
-#### 🔧 Step-by-step
-1. Open the same file again:
-```bash
-sudo nano /etc/pam.d/password-auth
+sudo nano /etc/pam.d/system-auth
 ```
 2. At the **top of the `auth` section**, add the following line:
 ```bash
-auth required pam_tally2.so deny=3 unlock_time=300 onerr=fail audit
+auth required pam_tally2.so deny=3 unlock_time=300
 ```
 **What this does:**
 * `deny=3` → Locks account after **3 failed attempts**
 * `unlock_time=300` → Unlocks after **5 minutes (300 seconds)**
-* `onerr=fail` → Deny access if the module fails
-* `audit` → Logs failed attempts for auditing
 > You can adjust the values:
 >
 > * Increase `deny` to allow more tries (e.g. `deny=5`)
@@ -277,8 +250,7 @@ Ctrl + O → Save
 Enter    → Confirm  
 Ctrl + X → Exit
 ```
-
-## How to Test It
+## Test the threshold configuration
 * Try logging in with the **wrong password 3 times** (using the test user).
 * The user account will be **temporarily locked**.
 * Wait 5 minutes (or the time you set with `unlock_time`) — the account will unlock automatically.
