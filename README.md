@@ -55,12 +55,12 @@ This guide provides a detailed walkthrough on how to set up a Linux EC2 instance
    * Search for **"EC2"** and click to open the EC2 dashboard.
    * Click on **"Launch an Instance"**.
 - Configure the instance:
-![Instance-Setup-Page](./assets/keypair-creation.png)
+![Instance-Setup-Page](./assets/instance-setup-page.png)
    * **Name**: `Linux-Password-Policy` (example used in this demonstration)
    * **AMI**: Select `Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type`
    * **Instance Type**: Choose `t3.micro` (default eligible for Free Tier)
 - Under **Key pair (login)**:
-![Instance-Setup-Page](./assets/instance-setup-page.png)
+![Instance-Setup-Page](./assets/keypair-creation.png)
    * Click **"Create a new key pair"**
    * **Name**: `PolicyKey` (example used in this demonstration)
    * **Key pair type**: `RSA`
