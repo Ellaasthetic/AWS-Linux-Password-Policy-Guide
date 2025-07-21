@@ -8,7 +8,7 @@ Password policies define rules that enhance the strength and effectiveness of us
 
 In today's digital age, password security is a critical aspect of protecting sensitive information and systems. A well-defined password policy is essential for ensuring the security and integrity of Linux instances on AWS. This guide provides a comprehensive overview of configuring password policies on Linux AWS instances, highlighting best practices and step-by-step instructions for implementation.
 
-## ✅ Best Practices for Password Policies
+## Best Practices for Password Policies
 Implementing effective password policies on Linux systems, especially those running on AWS is a foundational security control. These best practices help protect against unauthorized access, brute-force attacks, and credential compromise.
 
 ### 1. Enforce Strong Passwords
@@ -33,7 +33,7 @@ Without history enforcement, users often recycle the same few passwords. This de
 Lock accounts after 3–5 failed login attempts, with a cooldown or admin unlock required.
 This helps mitigate brute-force attacks by limiting how often an attacker can attempt guesses. It also provides an early warning of potential intrusion attempts.
 
-## 🛠️ Tools & Technologies Used in This Guide
+## Tools & Technologies Used in This Guide
 ### 1. AWS EC2 Instance
 - **Description:** Amazon Elastic Compute Cloud provides resizable compute capacity in the cloud. This gives us the Linux environment we need.
 - **Purpose:** Hosts the Linux virtual machine where password policy configuration is demonstrated.
@@ -46,10 +46,10 @@ This helps mitigate brute-force attacks by limiting how often an attacker can at
 - **Description:** A free and open-source terminal emulator for Windows that supports SSH.
 - **Purpose:** Used to securely connect to the EC2 Linux instance from a Windows computer using the `.ppk` key.
 
-# 🛡️ Step-by-Step Guide: Implementing Password Policy on a Linux AWS Instance
+# Step-by-Step Guide: Implementing Password Policy on a Linux AWS Instance
 This guide provides a detailed walkthrough on how to set up a Linux EC2 instance on AWS and implement password policy configurations for better system security.
 
-## ✅ Step 1: Launch a Linux EC2 Instance
+## Step 1: Launch a Linux EC2 Instance
 - Go to [AWS Console](https://aws.amazon.com/console/) and sign in as the **root user** or create an account.
 - In the AWS Management Console:
    * Search for **"EC2"** and click to open the EC2 dashboard.
@@ -70,7 +70,7 @@ This guide provides a detailed walkthrough on how to set up a Linux EC2 instance
 - **Storage**: Use default — 1 x 8 GiB `gp2`
 - Click **"Launch Instance"**
 
-## 🔗 Step 2: Connect to the Instance
+## Step 2: Connect to the Instance
 ### Get the Public IP
 * In your EC2 dashboard, go to **Instances**
 * Copy your instance’s **Public IPv4 address**
@@ -102,7 +102,7 @@ This generates a `.ppk` file you’ll use to authenticate with PuTTY
    ec2-user
    ```
 
-## 🔍 Step 3: Password Policy Settings
+## Step 3: Password Policy Settings
 Type the command 
 ```
 sudo nano /etc/security/pwquality.conf
@@ -128,7 +128,7 @@ Prevents users from choosing new passwords that are too similar to their old one
 Sets the **minimum password length** to 12 characters.
 Longer passwords are more secure. Anything shorter than 8 is considered weak today.
 
-> ⚠️ You cannot set this below 6.
+> You cannot set this below 6.
 
 ### 3. `dcredit = -1`
 Requires **at least 1 digit** (0–9) in the password.
@@ -160,7 +160,7 @@ Ctrl + O   → Save (Write Out) the file
 Enter      → Confirm the filename (just press Enter)  
 Ctrl + X   → Exit the nano editor
 ```
-📝 Tip:
+Tip:
 Nano shows these shortcuts at the bottom of the editor. The ^ symbol means "Ctrl".
 So ^O = Ctrl + O, and so on.
 
@@ -169,13 +169,13 @@ Now that you've configured your password rules, it’s important to verify that 
 
 ![Password-test](./assets/linux-password-test.png)
 
-### 👤 Create a Test User
+### Create a Test User
 Run the command below to create a new user for testing:
 ```
 sudo adduser demouser
 ```
 
-### 🔐 Try Setting a Weak Password
+### Try Setting a Weak Password
 Now try setting a weak password that doesn’t meet your policy:
 ```
 sudo passwd demouser
@@ -190,9 +190,9 @@ You should see a message like:
 ```
 BAD PASSWORD: it is too short
 ```
-✅ This means your password policy is working,the system is rejecting weak passwords.
+This means your password policy is working,the system is rejecting weak passwords.
 
-### 🔒 Try Setting a Strong Password
+### Try Setting a Strong Password
 Now enter a password that meets all your policy rules.
 ```
 sudo passwd demouser
@@ -201,7 +201,7 @@ Example: SecurePass2025!
 Expected result:
 The password should be accepted successfully
 
-## 🔐 Step 4: Set Account Lockout Threshold (Failed Login Attempts)
+## Step 4: Set Account Lockout Threshold (Failed Login Attempts)
 To enhance your system's security, we'll set up login attempt limits using PAM (Pluggable Authentication Modules). This helps block brute-force attacks by temporarily locking users out after multiple failed login attempts.
 ### Importance of Login Attempt Limits
 - Prevents brute-force attacks by limiting the number of login attempts
@@ -210,7 +210,7 @@ To enhance your system's security, we'll set up login attempt limits using PAM (
 
 This configuration is usually done in the PAM (Pluggable Authentication Module) configuration files, located in /etc/pam.d/.
 
-## 🔧 Step-by-step
+## Step-by-step
 ![Threshold-limit-Configuration](./assets/threshold-limit-config.png)
 1. Open the PAM configuration file:
 ```bash
