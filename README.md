@@ -55,10 +55,12 @@ This guide provides a detailed walkthrough on how to set up a Linux EC2 instance
    * Search for **"EC2"** and click to open the EC2 dashboard.
    * Click on **"Launch an Instance"**.
 - Configure the instance:
+![Instance-Setup-Page](./assets/keypair-creation.png)
    * **Name**: `Linux-Password-Policy` (example used in this demonstration)
    * **AMI**: Select `Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type`
    * **Instance Type**: Choose `t3.micro` (default eligible for Free Tier)
 - Under **Key pair (login)**:
+![Instance-Setup-Page](./assets/instance-setup-page.png)
    * Click **"Create a new key pair"**
    * **Name**: `PolicyKey` (example used in this demonstration)
    * **Key pair type**: `RSA`
@@ -86,6 +88,7 @@ This guide provides a detailed walkthrough on how to set up a Linux EC2 instance
 This generates a `.ppk` file you’ll use to authenticate with PuTTY
 
 ### Connect with PuTTY
+![Putty-key-setup](./assets/putty-key.png)
 - Open **PuTTY**
 - Under **Session**:
     * In **Host Name (or IP address)**, paste your **Public IPv4**
@@ -105,6 +108,7 @@ Type the command
 sudo nano /etc/security/pwquality.conf
 ```
 to open the password quality configuration file in the nano text editor.
+![Linux-password-policy-config](./assets/policy-config.png)
 
 Once you're inside the `/etc/security/pwquality.conf` file, you’ll find several settings (some lines may start with `#`, meaning they’re just comments). These settings define what makes a password strong or weak on your Linux system.
 ```
@@ -163,6 +167,8 @@ So ^O = Ctrl + O, and so on.
 ### Testing the Password Policy
 Now that you've configured your password rules, it’s important to verify that everything works correctly. We’ll test it by creating a new user and trying to assign different types of passwords.
 
+![Password-test](./assets/linux-password-test.png)
+
 ### 👤 Create a Test User
 Run the command below to create a new user for testing:
 ```
@@ -205,6 +211,7 @@ To enhance your system's security, we'll set up login attempt limits using PAM (
 This configuration is usually done in the PAM (Pluggable Authentication Module) configuration files, located in /etc/pam.d/.
 
 ## 🔧 Step-by-step
+![Threshold-limit-Configuration](./assets/threshold-limit-config.png)
 1. Open the PAM configuration file:
 ```bash
 sudo nano /etc/pam.d/system-auth
@@ -228,6 +235,7 @@ Enter    → Confirm
 Ctrl + X → Exit
 ```
 ## Test the threshold configuration
+![Threshold-Test](./assets/failed-login.png)
 * Try logging in with the **wrong password 3 times** (using the test user).
 * The user account will be **temporarily locked**.
 * Wait 5 minutes (or the time you set with `unlock_time`) — the account will unlock automatically.
